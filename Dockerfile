@@ -106,4 +106,6 @@ RUN mkdir ~/project
 
 WORKDIR $APP_USER_HOME/project
 
-CMD ["zsh"]
+ENV SHELL /bin/zsh
+
+CMD [ "zsh" ]

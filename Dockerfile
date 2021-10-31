@@ -14,7 +14,32 @@ RUN apt install -y --no-install-recommends zsh \
   git \
   curl \
   wget \
-  ca-certificates=*
+  ca-certificates=* \
+  socat \
+  openssh-server \
+  supervisor \
+  rpl \
+  pwgen
+RUN mkdir /var/run/sshd
+ADD sshd.conf /etc/supervisor/conf.d/sshd.conf
+
+# Ubuntu 14.04 by default only allows non pwd based root login
+# We disable that but also create an .ssh dir so you can copy
+# up your key. NOTE: This is not a particularly robust setup 
+# security wise and we recommend to NOT expose ssh as a public
+# service.
+RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
+RUN mkdir /root/.ssh
+RUN chmod o-rwx /root/.ssh
+
+EXPOSE 22
+
+ADD setup.sh /setup.sh
+RUN chmod 0755 /setup.sh
+RUN /setup.sh
+
+ADD start.sh /start.sh
+RUN chmod 0755 /start.sh
 
 # Install cmake
 ARG CMAKE_VERSION=3.21.4

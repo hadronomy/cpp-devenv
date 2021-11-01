@@ -88,14 +88,15 @@ ENV APP_USER_GROUP=user
 ARG APP_USER_HOME=/home/$APP_USER
 
 # Add non-root user
+RUN addgroup user
 RUN \
   adduser --quiet --disabled-password \
-  --shell /bin/bash \
+  --shell /bin/zsh \
   --gecos "User" $APP_USER \
   --ingroup $APP_USER_GROUP
 
-RUN mkdir -p ${APP_USER_GROUP}/.ssh
-RUN chown -R user:user /home/user/.ssh
+RUN mkdir -p ${APP_USER_HOME}/.ssh
+RUN chown -R user:user ${APP_USER_HOME}/.ssh
 
 USER $APP_USER
 WORKDIR $APP_USER_HOME

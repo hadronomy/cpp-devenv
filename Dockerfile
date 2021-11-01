@@ -21,24 +21,23 @@ RUN apt install -y --no-install-recommends zsh \
   rpl \
   pwgen
 RUN mkdir /var/run/sshd
-ADD sshd.conf /etc/supervisor/conf.d/sshd.conf
+ADD config/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 # Ubuntu 14.04 by default only allows non pwd based root login
 # We disable that but also create an .ssh dir so you can copy
-# up your key. NOTE: This is not a particularly robust setup 
-# security wise and we recommend to NOT expose ssh as a public
-# service.
+# up your key.
 RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
 RUN mkdir /root/.ssh
 RUN chmod o-rwx /root/.ssh
+RUN ssg-keyscan github.com > /root/.ssh/known_hosts
 
 EXPOSE 22
 
-ADD setup.sh /setup.sh
+ADD scripts/setup.sh /setup.sh
 RUN chmod 0755 /setup.sh
 RUN /setup.sh
 
-ADD start.sh /start.sh
+ADD scripts/start.sh /start.sh
 RUN chmod 0755 /start.sh
 
 # Install cmake
@@ -94,6 +93,9 @@ RUN \
   --shell /bin/bash \
   --gecos "User" $APP_USER \
   --ingroup $APP_USER_GROUP
+
+RUN mkdir -p ${APP_USER_GROUP}/.ssh
+RUN chown -R user:user /home/user/.ssh
 
 USER $APP_USER
 WORKDIR $APP_USER_HOME

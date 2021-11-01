@@ -84,7 +84,7 @@ RUN \
   && echo "$FIRA_CODE_RETINA_DOWNLOAD_SHA256 $FONT_DIR/Fura Code Retina Nerd Font Complete.ttf" | sha256sum -c -
 
 ENV APP_USER=user
-ENV APP_USER_GROUP=www-data
+ENV APP_USER_GROUP=user
 ARG APP_USER_HOME=/home/$APP_USER
 
 # Add non-root user

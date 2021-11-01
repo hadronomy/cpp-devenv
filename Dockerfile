@@ -29,7 +29,7 @@ ADD config/sshd.conf /etc/supervisor/conf.d/sshd.conf
 RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
 RUN mkdir /root/.ssh
 RUN chmod o-rwx /root/.ssh
-RUN ssg-keyscan github.com > /root/.ssh/known_hosts
+RUN ssh-keyscan github.com > /root/.ssh/known_hosts
 
 EXPOSE 22
 

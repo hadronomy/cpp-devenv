@@ -19,7 +19,16 @@ RUN apt install -y --no-install-recommends zsh \
   openssh-server \
   supervisor \
   rpl \
-  pwgen
+  pwgen \
+  sudo
+
+# Github CLI
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+  && sudo apt update \
+  && sudo apt install gh
+
+# SSH Config
 RUN mkdir /var/run/sshd
 ADD config/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
@@ -97,6 +106,8 @@ RUN \
 
 RUN mkdir -p ${APP_USER_HOME}/.ssh
 RUN chown -R user:user ${APP_USER_HOME}/.ssh
+RUN adduser ${APP_USER} sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER $APP_USER
 WORKDIR $APP_USER_HOME

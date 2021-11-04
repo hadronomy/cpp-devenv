@@ -20,6 +20,7 @@ RUN apt install -y --no-install-recommends zsh \
   supervisor \
   rpl \
   pwgen \
+  less \
   sudo
 
 # Github CLI

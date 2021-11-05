@@ -148,6 +148,7 @@ RUN mkdir ~/project
 
 WORKDIR $APP_USER_HOME/project
 
+ADD scripts/first_start.sh /etc/start.sh
 ENV SHELL /bin/zsh
 
 CMD [ "zsh" ]

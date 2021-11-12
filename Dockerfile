@@ -34,16 +34,16 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
 RUN gh config set editor "code --wait"
 
 # SSH Config
-RUN mkdir /var/run/sshd
-ADD config/sshd.conf /etc/supervisor/conf.d/sshd.conf
+# RUN mkdir /var/run/sshd
+# ADD config/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 # Ubuntu 14.04 by default only allows non pwd based root login
 # We disable that but also create an .ssh dir so you can copy
 # up your key.
-RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
-RUN mkdir /root/.ssh
-RUN chmod o-rwx /root/.ssh
-RUN ssh-keyscan github.com > /root/.ssh/known_hosts
+# RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
+# RUN mkdir /root/.ssh
+# RUN chmod o-rwx /root/.ssh
+# RUN ssh-keyscan github.com > /root/.ssh/known_hosts
 
 EXPOSE 22
 
@@ -109,8 +109,9 @@ RUN \
   --gecos "User" $APP_USER \
   --ingroup $APP_USER_GROUP
 
-RUN mkdir -p ${APP_USER_HOME}/.ssh
-RUN chown -R user:user ${APP_USER_HOME}/.ssh
+# RUN mkdir -p ${APP_USER_HOME}/.ssh
+# RUN chown -R user:user ${APP_USER_HOME}/.ssh
+
 RUN adduser ${APP_USER} sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 

@@ -2,13 +2,15 @@ FROM ubuntu:20.04 as base
 
 SHELL [ "/bin/bash", "-o", "pipefail", "-c", "-l" ]
 
-RUN apt update -y
+RUN apt update -y --fix-missing
 RUN apt upgrade -y
 RUN apt install -y --no-install-recommends \
   libprotobuf-dev \ 
   protobuf-compiler \
   g++ \
   build-essential \
+  libc6-dbg \
+  gpg \
   gdb
 RUN apt install -y --no-install-recommends zsh \
   zsh \

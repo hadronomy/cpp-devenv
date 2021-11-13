@@ -7,7 +7,9 @@ RUN apt upgrade -y
 RUN apt install -y --no-install-recommends \
   libprotobuf-dev \ 
   protobuf-compiler \
-  g++
+  g++ \
+  build-essential \
+  gdb
 RUN apt install -y --no-install-recommends zsh \
   zsh \
   git \

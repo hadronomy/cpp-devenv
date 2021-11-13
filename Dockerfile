@@ -4,7 +4,6 @@ SHELL [ "/bin/bash", "-o", "pipefail", "-c", "-l" ]
 
 RUN apt update -y
 RUN apt upgrade -y
-RUN apt install -y python pip
 RUN apt install -y --no-install-recommends \
   libprotobuf-dev \ 
   protobuf-compiler \
